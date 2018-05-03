@@ -1,0 +1,8 @@
+------------------------------------------------
+Financial Analysis Data Set 1
+-----------------------------------------------
+Total Months: 41
+Total Revenue: $18971412.0
+Average Revenue Change: $-6594.121951219512
+Greatest Increase in Revenue: $1837235
+Greatest Decrease in Revenue: $-1779747
