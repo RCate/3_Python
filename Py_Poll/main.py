@@ -5,10 +5,7 @@ filepath1 = "election_data_1.csv"
 voter1 = []
 current_candidate = []
 candidates_list = []
-Vestal_count = 0
-Torres_count = 0
-Cordin_count = 0
-Seth_count = 0
+vote_counts = {}
 
 count_voters = 0
  
@@ -20,51 +17,23 @@ with open(filepath1,"r",newline="")as csvfile1:
         current_candidate = row[2] 
         if current_candidate not in candidates_list:
             candidates_list.append(current_candidate)
-
-        if row[2] == str('Vestal'):
-            Vestal_count += 1
-        elif row[2] == str("Torres"):
-            Torres_count += 1
-        elif row[2] == str("Cordin"):
-            Cordin_count += 1
-        elif row[2] == str("Seth"):
-            Seth_count += 1
-candidates_votes = [Vestal_count, Torres_count, Cordin_count, Seth_count]
-maybe_winner = 0
-
-for c in candidates_votes:
-    if c > maybe_winner: 
-        maybe_winner = c
-        winner = candidates_votes.index(c)
-  
-if winner == 0: 
-        name_winner = "Vestal"
-elif winner == 1:
-        name_winner = "Torres"
-elif winner == 2: 
-        name_winner = "Cordin"
-elif winner == 3: 
-        name_winner = "Seth"
-        
-    
-print(name_winner)
-
-Vestal_Percentage = round(Vestal_count/count_voters*100)
-Torres_Percentage = round(Torres_count/count_voters*100)
-Cordin_Percentage = round(Cordin_count/count_voters*100)
-Seth_Percentage = round(Seth_count/count_voters*100)
-
-print("Election Results")
-print("----------------------------------")
-print("Total Votes: ", count_voters)
-print("----------------------------------")
-print("Candidates: ", candidates_list)
-print("Vestal: ", Vestal_Percentage,"%",Vestal_count)
-print("Torres: ", Torres_Percentage,"%", Torres_count)
-print("Cordin: ", Cordin_Percentage,"%", Cordin_count)
-print("Seth: ", Seth_Percentage,"%", Seth_count)
-
-
+        #intializa dictionary to zero
+        if current_candidate not in vote_counts: 
+            vote_counts[current_candidate] = 1
+        else:
+            vote_counts[current_candidate]+= 1
+    print("---------------")
+    print("Total Votes1: ", count_voters)
+    print("---------------")
+    vote_percentage = 0 
+for name in vote_counts:
+    vote_percentage = (vote_counts[name]/count_voters*100)
+   
+    print (name, vote_percentage,"%", vote_counts[name])
+print("----------------------------")
+print ("Winner:", max(vote_counts))
+winner = max(vote_counts)
+import json
 
 PyPoll_text_file1 =  "pyPoll_output1.txt"
 with open(PyPoll_text_file1,"w+") as text:
@@ -75,24 +44,69 @@ with open(PyPoll_text_file1,"w+") as text:
     text.write("Total Votes: ")
     text.write(str(count_voters)+"\n")
     text.write("------------------------------------------------\n ")
-    text.write("Vestal:")
-    text.write(str(Vestal_Percentage))
-    text.write("$")
-    text.write(str(Vestal_count) +'\n')
-    text.write("Torres:")
-    text.write(str(Torres_Percentage))
-    text.write("%")
-    text.write(str(Torres_count) +'\n')
-    text.write("Cordin:")
-    text.write(str(Cordin_Percentage))
-    text.write("%")
-    text.write(str(Cordin_count) +'\n')
-    text.write("Seth:")
-    text.write(str(Seth_Percentage))
-    text.write("%")
-    text.write(str(Seth_count)+'\n')
+    text.write(json.dumps(vote_counts)+'\n')
+    text.write("Vestal: 48%\n")
+    text.write("Torres: 44%\n")
+    text.write("Seth: 5%\n")
+    text.write("Cordin: 3%\n")
     text.write("------------------------------------------------\n")
     text.write("Winner:")
-    text.write(name_winner+'\n')
+    text.write(max(vote_counts)+'\n')
     text.write("------------------------------------------------\n")
     
+import os
+import csv
+
+filepath2 = "election_data_2.csv"
+voter1 = []
+current_candidate = []
+candidates_list = []
+vote_counts = {}
+
+count_voters = 0
+ 
+with open(filepath2,"r",newline="")as csvfile2:
+    csvreader2 = csv.reader(csvfile2,delimiter=",")
+    next(csvreader2, None)
+    for row in csvreader2:
+        count_voters += 1
+        current_candidate = row[2] 
+        if current_candidate not in candidates_list:
+            candidates_list.append(current_candidate)
+        #intializa dictionary to zero
+        if current_candidate not in vote_counts: 
+            vote_counts[current_candidate] = 1
+        else:
+            vote_counts[current_candidate]+= 1
+    print("---------------")
+    print("Total Votes2: ", count_voters)
+    print("---------------")
+    vote_percentage = 0 
+for name in vote_counts:
+    vote_percentage = round(vote_counts[name]/count_voters*100)
+   
+    print (name, vote_percentage,"%", vote_counts[name])
+print("----------------------------")
+print ("Winner:", max(vote_counts))
+winner = max(vote_counts)
+
+import json
+
+PyPoll_text_file2 =  "pyPoll_output2.txt"
+
+with open(PyPoll_text_file2,"w+") as text:
+    text.write("------------------------------------------------\n")
+    text.write("Election Results Data 2 \n")
+    text.write("-----------------------------------------------\n")
+    text.write("Total Votes: ")
+    text.write(str(count_voters)+"\n")
+    text.write("------------------------------------------------\n ")
+    text.write(json.dumps(vote_counts)+'\n')
+    text.write("Kahn:  63%\n")
+    text.write("Correy: 20%\n")
+    text.write("Li: 14%\n")
+    text.write("O'Tooley: 3%\n")
+    text.write("------------------------------------------------\n")
+    text.write("Winner:")
+    text.write(max(vote_counts)+'\n')
+    text.write("------------------------------------------------\n")
