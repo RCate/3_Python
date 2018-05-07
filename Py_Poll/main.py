@@ -6,6 +6,8 @@ voter1 = []
 current_candidate = []
 candidates_list = []
 vote_counts = {}
+max_votes = 0
+winner = ""
 
 count_voters = 0
  
@@ -26,13 +28,17 @@ with open(filepath1,"r",newline="")as csvfile1:
     print("Total Votes1: ", count_voters)
     print("---------------")
     vote_percentage = 0 
+
 for name in vote_counts:
     vote_percentage = (vote_counts[name]/count_voters*100)
+    if vote_counts[name] > max_votes: 
+        max_votes = vote_counts[name]
+        winner = name
    
     print (name, vote_percentage,"%", vote_counts[name])
 print("----------------------------")
-print ("Winner:", max(vote_counts))
-winner = max(vote_counts)
+print ("Winner:", winner)
+
 import json
 
 PyPoll_text_file1 =  "pyPoll_output1.txt"
@@ -43,15 +49,13 @@ with open(PyPoll_text_file1,"w+") as text:
     text.write("-----------------------------------------------\n")
     text.write("Total Votes: ")
     text.write(str(count_voters)+"\n")
-    text.write("------------------------------------------------\n ")
-    text.write(json.dumps(vote_counts)+'\n')
-    text.write("Vestal: 48%\n")
-    text.write("Torres: 44%\n")
-    text.write("Seth: 5%\n")
-    text.write("Cordin: 3%\n")
     text.write("------------------------------------------------\n")
+    for name in vote_counts:
+        vote_percentage = round(vote_counts[name]/count_voters*100)
+        text.write(name+" "+str(vote_percentage)+"%"+" "+ str(vote_counts[name])+"\n")
+
     text.write("Winner:")
-    text.write(max(vote_counts)+'\n')
+    text.write(winner+'\n')
     text.write("------------------------------------------------\n")
     
 import os
@@ -62,7 +66,8 @@ voter1 = []
 current_candidate = []
 candidates_list = []
 vote_counts = {}
-
+max_votes = 0
+winner = ""
 count_voters = 0
  
 with open(filepath2,"r",newline="")as csvfile2:
@@ -77,36 +82,37 @@ with open(filepath2,"r",newline="")as csvfile2:
         if current_candidate not in vote_counts: 
             vote_counts[current_candidate] = 1
         else:
-            vote_counts[current_candidate]+= 1
+            vote_counts[current_candidate] += 1
     print("---------------")
     print("Total Votes2: ", count_voters)
     print("---------------")
     vote_percentage = 0 
+
 for name in vote_counts:
     vote_percentage = round(vote_counts[name]/count_voters*100)
-   
+    if vote_counts[name] > max_votes: 
+        max_votes = vote_counts[name]
+        winner = name
     print (name, vote_percentage,"%", vote_counts[name])
 print("----------------------------")
-print ("Winner:", max(vote_counts))
-winner = max(vote_counts)
+print ("Winner:", winner)
 
-import json
+
+
 
 PyPoll_text_file2 =  "pyPoll_output2.txt"
 
 with open(PyPoll_text_file2,"w+") as text:
     text.write("------------------------------------------------\n")
-    text.write("Election Results Data 2 \n")
+    text.write("Election Results \n")
     text.write("-----------------------------------------------\n")
     text.write("Total Votes: ")
     text.write(str(count_voters)+"\n")
-    text.write("------------------------------------------------\n ")
-    text.write(json.dumps(vote_counts)+'\n')
-    text.write("Kahn:  63%\n")
-    text.write("Correy: 20%\n")
-    text.write("Li: 14%\n")
-    text.write("O'Tooley: 3%\n")
     text.write("------------------------------------------------\n")
+    for name in vote_counts:
+        vote_percentage = round(vote_counts[name]/count_voters*100)
+        text.write(name+" "+str(vote_percentage)+"%"+" "+ str(vote_counts[name])+"\n")
+
     text.write("Winner:")
-    text.write(max(vote_counts)+'\n')
+    text.write(winner+'\n')
     text.write("------------------------------------------------\n")
