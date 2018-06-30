@@ -30,7 +30,7 @@ with open(filepath1,"r",newline="")as csvfile1:
     vote_percentage = 0 
 
 for name in vote_counts:
-    vote_percentage = (vote_counts[name]/count_voters*100)
+    vote_percentage = round(vote_counts[name]/count_voters*100)
     if vote_counts[name] > max_votes: 
         max_votes = vote_counts[name]
         winner = name
